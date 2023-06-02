@@ -159,7 +159,7 @@
   font-family: 'Carter One', cursive;
   text-align: center;
   margin-top: 1rem;
-  animation: growAndShrink 1s ease-out infinite;
+  animation: growAndShrink 1s ease-out 5;
 }
 
 @keyframes growAndShrink {
