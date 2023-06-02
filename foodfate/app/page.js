@@ -65,15 +65,29 @@ export default function Home() {
         request.location = location;
 
         // Perform the nearby search
-        service.nearbySearch(request, (results, status) => {
-          if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-            setNearbyPlaces(results);
+service.nearbySearch(request, (results, status) => {
+  if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+    let subwayCount = 0;
 
-            // Randomly select a place from the results
-            const randomIndex = Math.floor(Math.random() * results.length);
-            setSelectedPlace(results[randomIndex]);
-          }
-        });
+    // Iterate through the results and check for Subway restaurants
+    for (let i = 0; i < results.length; i++) {
+      if (results[i].name.includes("Subway")) {
+        subwayCount++;
+
+        if (subwayCount > 1) {
+          results.splice(i, 1); // Remove additional Subway restaurants
+          i--; // Adjust the loop index after removing an element
+        }
+      }
+    }
+
+    setNearbyPlaces(results);
+
+    // Randomly select a place from the updated results
+    const randomIndex = Math.floor(Math.random() * results.length);
+    setSelectedPlace(results[randomIndex]);
+  }
+});
       }
     });
   };
@@ -89,7 +103,7 @@ export default function Home() {
           {selectedPlace && (
             <div className={styles.fateBox}>
               <h2>Fate has decided that you eat at:</h2>
-              <p>Name: {selectedPlace.name}</p>
+              <p className={styles.placeName}>{selectedPlace.name}</p>
               <p>Address: {selectedPlace.vicinity}</p>
               <p>Rating: {selectedPlace.rating} /5.0</p>
               <a href={`https://maps.google.com/?q=${encodeURIComponent(selectedPlace.vicinity)}`} target="_blank" rel="noopener noreferrer">View on Map</a>
