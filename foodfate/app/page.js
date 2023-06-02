@@ -11,6 +11,8 @@ export default function Home() {
   const [nearbyPlaces, setNearbyPlaces] = useState([]); // Store the nearby food places
   const [selectedPlace, setSelectedPlace] = useState(null); // Store the randomly selected place
   const inputRef = useRef(null); // Reference to the input element
+  const [range, setRange] = useState(parseInt(0));
+
 
   useEffect(() => {
     // Load the Google Maps JavaScript API script
@@ -51,7 +53,7 @@ export default function Home() {
     const service = new window.google.maps.places.PlacesService(document.createElement('div'));
     const request = {
       location: { lat: 0, lng: 0 }, // Set the location dynamically based on the saved address
-      radius: 5000, // Set the desired radius for nearby search (in meters)
+      radius: range, // Set the desired radius for nearby search (in meters)
       type: 'restaurant', // Specify the type of place to search (e.g., restaurant, cafe, etc.)
     };
 
@@ -82,6 +84,7 @@ export default function Home() {
         <div className={styles.wholeBox}>
           <h1>Submitted!</h1>
           <p>Your address: {address}</p>
+          <p>Range: {parseInt(range/1609)} miles</p>
 
           {selectedPlace && (
             <div className={styles.fateBox}>
@@ -122,6 +125,8 @@ export default function Home() {
         <div className={ `${styles.main} ${isSubmitted ? styles.heightani : ''}`}>
         <h1 className={styles.maintitle}> Can&apos;t decide where to eat? <br />Enter your address and let FoodFate decide! </h1>
         <input className={styles.input} type="text" placeholder="Enter your address" ref={inputRef} onChange={handleInputChange} />
+        <h2 className={styles.main}>Range (Miles): {parseInt(range/1609)} miles</h2>
+        <input className={styles.input} type="range" min="0" max="160934" step="100" value={range} onChange={e => setRange(e.target.value)} />
         <button className={styles.button} onClick={handleSubmit}>Submit</button>
         </div>
         {renderMainContent()} {/* Render the appropriate content based on the submit state */}
