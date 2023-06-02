@@ -120,7 +120,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <div className={ `${styles.main} ${isSubmitted ? styles.heightani : ''}`}>
-        <h1 className={styles.maintitle}> Can't decide where to eat? <br />Enter your address and let FoodFate decide! </h1>
+        <h1 className={styles.maintitle}> Can'&#39;t decide where to eat? <br />Enter your address and let FoodFate decide! </h1>
         <input className={styles.input} type="text" placeholder="Enter your address" ref={inputRef} onChange={handleInputChange} />
         <button className={styles.button} onClick={handleSubmit}>Submit</button>
         </div>
